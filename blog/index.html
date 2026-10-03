@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blog | Doble Barra Strength</title>
+  <meta name="description" content="Blog de Doble Barra Strength: entradas sobre powerlifting escritas por Ivan Casas, Luca Bettinalio y el equipo.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@700&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/tema.js"></script>
+  <script src="../js/main.js" defer></script>
+  <script src="../js/blog.js" defer></script>
+</head>
+<body data-raiz="../">
+
+  <a href="#contenido" class="saltar-contenido">Saltar al contenido</a>
+
+  <!-- ===================== CABECERA ===================== -->
+  <!-- Igual en las 3 páginas: si se cambia, actualizar index.html, blog/index.html y blog/entrada.html -->
+  <header class="header">
+    <div class="contenedor header__contenido">
+      <a href="../index.html" class="marca">
+        <img class="marca__logo" src="../img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+        <span class="marca__texto">
+          <span class="marca__nombre">Doble Barra</span>
+          <span class="marca__sufijo">Strength</span>
+        </span>
+      </a>
+
+      <button type="button" class="boton-icono boton-menu" aria-expanded="false" aria-controls="menu-principal">
+        <svg class="icono icono-abrir" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="icono icono-cerrar" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        <span class="oculto-accesible">Menú</span>
+      </button>
+
+      <div class="header__menu" id="menu-principal">
+        <nav aria-label="Principal">
+          <ul class="nav__lista">
+            <li><a class="nav__enlace" href="../index.html#nosotros">Nosotros</a></li>
+            <!-- COMPLETAR: volver a agregar "Servicios" cuando la sección tenga contenido (P-09) -->
+            <li><a class="nav__enlace" href="../index.html#youtube">YouTube</a></li>
+            <li><a class="nav__enlace" href="index.html" aria-current="page">Blog</a></li>
+            <li><a class="boton boton--primario nav__cta" href="../index.html#sumate">Sumate</a></li>
+          </ul>
+        </nav>
+        <button type="button" class="boton-tema" aria-pressed="false" hidden>
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <span class="boton-tema__texto">Modo oscuro</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ===================== CABECERA DE PÁGINA ===================== -->
+    <section class="cabecera-pagina zona-oscura">
+      <div class="contenedor">
+        <p class="etiqueta">Doble Barra Strength</p>
+        <h1 class="cabecera-pagina__titulo">Blog</h1>
+        <p class="cabecera-pagina__texto">Artículos sobre powerlifting escritos por el equipo.</p>
+      </div>
+    </section>
+
+    <!-- ===================== LISTADO DE ENTRADAS ===================== -->
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="blog-estado" data-blog-estado></div>
+        <ul class="lista-entradas" role="list" data-blog="lista" data-nivel-titulo="2" data-ruta-entrada="entrada.html" data-carga-inmediata="2"></ul>
+        <noscript><p>Para ver las entradas del blog necesitás tener JavaScript activado.</p></noscript>
+      </div>
+    </section>
+
+    <!-- ===================== LLAMADO A LA ACCIÓN ===================== -->
+    <section class="banda-cta zona-roja">
+      <div class="contenedor banda-cta__contenido revelar">
+        <div>
+          <h2 class="banda-cta__titulo">¿Querés ser el próximo?</h2>
+          <p class="banda-cta__texto">Más de 100 asesorados ya pasaron por el equipo.</p>
+        </div>
+        <a class="boton boton--primario boton--grande" href="../index.html#sumate">
+          Sumate al equipo
+          <svg class="icono boton__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="footer zona-oscura">
+    <div class="contenedor">
+      <div class="footer__grilla">
+        <div class="footer__marca">
+          <a href="../index.html" class="marca">
+            <img class="marca__logo" src="../img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+            <span class="marca__texto">
+              <span class="marca__nombre">Doble Barra</span>
+              <span class="marca__sufijo">Strength</span>
+            </span>
+          </a>
+          <!-- COMPLETAR: confirmar la redacción final de la misión con el equipo (P-17) -->
+          <p class="footer__mision">Compartir conocimiento, aprender en comunidad y contribuir al desarrollo de mejores atletas, entrenadores y personas.</p>
+        </div>
+
+        <!-- COMPLETAR: confirmar que las cuentas son de Instagram (P-18) -->
+        <div class="footer__redes">
+          <h2 class="footer__titulo">Seguinos</h2>
+          <ul role="list">
+            <li>
+              <a href="https://www.instagram.com/doblebarra.strength/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Equipo</span> @doblebarra.strength<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/ivancasas.pwch/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Ivan Casas</span> @ivancasas.pwch<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/lucabettinalio/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Luca Bettinalio</span> @lucabettinalio<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/@doblebarra.strength" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">YouTube</span> @doblebarra.strength<span class="oculto-accesible"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__legal">© 2026 Doble Barra Strength. Todos los derechos reservados.</p>
+    </div>
+    <p class="contenedor footer__marca-grande" aria-hidden="true">Doble Barra</p>
+  </footer>
+
+</body>
+</html>

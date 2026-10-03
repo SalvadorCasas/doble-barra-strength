@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <!-- PLACEHOLDER: imagen de una entrada de ejemplo del blog (P-13) -->
+  <rect width="1200" height="675" fill="#2E2E2E"/>
+  <rect x="0" y="0" width="24" height="675" fill="#D7141A"/>
+  <text x="600" y="320" font-family="Arial, sans-serif" font-size="140" font-weight="700" fill="#525252" text-anchor="middle">01</text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="40" font-weight="700" fill="#D4D4D4" text-anchor="middle">[EJEMPLO] Imagen de la entrada</text>
+</svg>
