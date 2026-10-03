@@ -1,0 +1,9 @@
+# Guía interna para Claude Code (no va al repositorio)
+CLAUDE.md
+.claude/
+
+# Informes de Lighthouse, capturas y herramientas de prueba
+_reportes/
+
+# Paquetes que instala npm (se regeneran con "npm install")
+node_modules/
