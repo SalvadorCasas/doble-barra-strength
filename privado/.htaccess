@@ -1,0 +1,3 @@
+# Nada de esta carpeta se puede abrir desde el navegador:
+# tiene la configuración (con contraseñas) y el código interno del panel.
+Require all denied

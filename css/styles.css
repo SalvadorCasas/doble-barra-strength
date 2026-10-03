@@ -189,7 +189,7 @@ h3,
 h4 {
   font-family: var(--fuente-titulos);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.15;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   text-wrap: balance;
@@ -618,10 +618,6 @@ textarea {
   transform: rotate(-20deg);
 }
 
-/* Luna con relleno = modo oscuro activado */
-.boton-tema[aria-pressed="true"] .icono {
-  fill: currentColor;
-}
 
 @media (min-width: 1024px) {
   .js .boton-menu {
@@ -708,7 +704,7 @@ textarea {
 
 .seccion__titulo {
   font-size: clamp(2.5rem, 8vw, 4.25rem);
-  line-height: 0.95;
+  line-height: 1.1;
 }
 
 /* Barra roja sobre cada título: se "dibuja" cuando el título aparece */
@@ -797,7 +793,7 @@ textarea {
 .hero__titulo {
   max-width: 12ch;
   font-size: clamp(3.25rem, 13vw, 7.5rem);
-  line-height: 0.92;
+  line-height: 1.1;
   letter-spacing: 0;
 }
 
@@ -933,7 +929,7 @@ textarea {
   font-family: var(--fuente-titulos);
   font-size: clamp(1.5rem, 4.5vw, 2.125rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
@@ -970,7 +966,7 @@ textarea {
   font-family: var(--fuente-titulos);
   font-size: clamp(1.75rem, 4.5vw, 2.75rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
@@ -1045,7 +1041,7 @@ textarea {
 
 .entrenador__nombre {
   font-size: clamp(2rem, 6vw, 2.75rem);
-  line-height: 0.95;
+  line-height: 1.1;
 }
 
 .entrenador__rol {
@@ -1117,7 +1113,7 @@ textarea {
 
 .banda-cta__titulo {
   font-size: clamp(2.5rem, 9vw, 4.5rem);
-  line-height: 0.95;
+  line-height: 1.1;
 }
 
 .banda-cta__texto {
@@ -1667,13 +1663,37 @@ textarea.campo__control {
   color: var(--texto-suave);
 }
 
+/* Línea final: © a la izquierda y acceso al panel del equipo a la derecha */
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 2rem;
+  margin-top: 3.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--borde);
+}
+
 .footer__legal {
   max-width: none;
-  margin-top: 3.5rem;
-  padding-top: 1.5rem;
   font-size: 0.875rem;
   color: var(--texto-suave);
-  border-top: 1px solid var(--borde);
+}
+
+.footer__acceso {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+  text-decoration: underline;
+  text-decoration-color: var(--borde-control);
+}
+
+.footer__acceso:hover {
+  color: var(--texto);
+  text-decoration-color: var(--acento-grande);
 }
 
 /* Marca gigante con contorno al pie (decorativa, aria-hidden en el HTML) */
@@ -1690,6 +1710,9 @@ textarea.campo__control {
   color: transparent;
   -webkit-text-stroke: 1px var(--contorno-fondo);
   user-select: none;
+  /* Las letras gigantes ocupan más alto que su renglón y tapaban el link "Acceso del equipo":
+     al ser decorativas, no reciben clics */
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -1708,7 +1731,7 @@ textarea.campo__control {
 .cabecera-pagina__titulo {
   margin-block: 1.25rem 1rem;
   font-size: clamp(3.5rem, 15vw, 7rem);
-  line-height: 0.9;
+  line-height: 1.05;
 }
 
 .cabecera-pagina__texto {
@@ -1731,7 +1754,7 @@ textarea.campo__control {
 .entrada__titulo {
   margin-bottom: 1rem;
   font-size: clamp(2.25rem, 8vw, 4rem);
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .entrada__meta {
@@ -1792,6 +1815,168 @@ textarea.campo__control {
   margin-top: 0.5rem;
   font-size: 0.875rem;
   color: var(--texto-suave);
+}
+
+/* ---------- Panel de administración (admin/) ---------- */
+/* En celular, las acciones ocupan una fila propia debajo del logo */
+.panel-acciones {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  width: 100%;
+  padding-bottom: 0.75rem;
+}
+
+/* El saludo del título ya dice quién ingresó: en celular se ahorra este espacio */
+.panel-acciones__usuario {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .panel-acciones {
+    justify-content: flex-end;
+    width: auto;
+    padding-bottom: 0;
+  }
+
+  .panel-acciones__usuario {
+    display: block;
+  }
+}
+
+.panel-acciones .boton-tema {
+  justify-content: center;
+  width: 2.75rem;
+  min-height: 2.75rem;
+  margin-top: 0;
+  padding: 0;
+}
+
+.panel-acciones__usuario {
+  max-width: none;
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.panel-acciones__salir {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+/* Pantalla de ingreso */
+.acceso {
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - var(--alto-header));
+  min-height: calc(100svh - var(--alto-header));
+  padding: clamp(2rem, 6vw, 4rem) var(--gutter);
+  background-color: var(--bg-alt);
+  background-image: radial-gradient(circle at 85% 10%, var(--halo-rojo), transparent 45%);
+}
+
+.acceso__tarjeta {
+  display: grid;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 28rem;
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-top: 0.375rem solid var(--acento-grande);
+  border-radius: var(--radio-grande);
+  box-shadow: var(--sombra);
+}
+
+.acceso__titulo {
+  font-size: clamp(2.75rem, 10vw, 3.75rem);
+  line-height: 1.05;
+}
+
+.acceso__intro {
+  margin-top: 0.75rem;
+  color: var(--texto-suave);
+}
+
+.acceso__ayuda {
+  font-size: 0.9375rem;
+  color: var(--texto-suave);
+}
+
+.formulario-acceso {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Contraseña con botón "Mostrar" al lado */
+.campo-clave {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.campo-clave .campo__control {
+  flex: 1;
+  min-width: 0;
+}
+
+.boton-ver-clave {
+  flex-shrink: 0;
+  min-width: 3rem;
+  min-height: 3rem;
+  padding: 0 1rem;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--texto);
+  border: 2px solid var(--borde-control);
+  border-radius: var(--radio);
+  cursor: pointer;
+}
+
+.boton-ver-clave:hover {
+  border-color: var(--texto);
+}
+
+.boton-ver-clave[aria-pressed="true"] {
+  background-color: var(--texto);
+  color: var(--bg);
+  border-color: var(--texto);
+}
+
+/* Mensaje informativo (sesión cerrada o vencida) */
+.aviso {
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  border: 2px solid var(--borde-control);
+  border-left: 0.375rem solid var(--texto);
+  border-radius: var(--radio);
+}
+
+/* Inicio del panel */
+.panel {
+  min-height: calc(100vh - var(--alto-header));
+  min-height: calc(100svh - var(--alto-header));
+}
+
+.panel__titulo {
+  font-size: clamp(2.75rem, 9vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.panel__nota {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 40rem;
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-left: 0.375rem solid var(--acento-grande);
+  border-radius: var(--radio-grande);
+}
+
+.panel__nota-titulo {
+  font-size: 1.5rem;
 }
 
 /* ---------- Animaciones ---------- */

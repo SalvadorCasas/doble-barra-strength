@@ -2,8 +2,25 @@
 CLAUDE.md
 .claude/
 
+# Configuración con contraseñas (cada entorno tiene la suya; la plantilla es privado/config.ejemplo.php)
+privado/config.php
+doblebarra-config.php
+.env
+.env.*
+
 # Informes de Lighthouse, capturas y herramientas de prueba
 _reportes/
 
 # Paquetes que instala npm (se regeneran con "npm install")
 node_modules/
+
+# Registros de errores
+*.log
+error_log
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
