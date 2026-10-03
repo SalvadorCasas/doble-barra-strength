@@ -73,14 +73,21 @@ php privado/usuarios.php activar      vuelve a habilitarla
 php privado/usuarios.php listar       muestra las cuentas
 ```
 
+## Dónde se puede publicar
+
+El panel necesita **PHP y MySQL/MariaDB**. Los hostings que solo publican archivos estáticos (Netlify, GitHub Pages, Vercel) no ejecutan PHP: entregan los `.php` como descarga. Ahí solo funciona la parte pública. Para esos casos, `netlify.toml` evita que se entregue el código del panel.
+
 ## Publicar en el hosting (cPanel)
+
+**Forma recomendada:** clonar el repositorio con cPanel → **Git™ Version Control**, en una carpeta **fuera** de `public_html` (por ejemplo `/home/usuario/doblebarra`), y crear un subdominio cuya carpeta raíz sea esa. Para actualizar después: Git Version Control → Administrar → "Update from Remote". La carpeta `.git` queda bloqueada para la web por el `.htaccess` de la raíz.
+
 
 1. **Bases de datos MySQL:** crear la base y un usuario. Asignarle solo los permisos `SELECT`, `INSERT`, `UPDATE` y `DELETE`.
 2. **phpMyAdmin:** elegir la base → Importar → `privado/esquema.sql`.
-3. **Subir los archivos del sitio** a `public_html`, incluidos `admin/` y `privado/` con su `.htaccess`. No hace falta subir `privado/servidor-local.php`, `docs/` ni `README.md`.
-4. **Crear la configuración real** a partir de `config.ejemplo.php` como `doblebarra-config.php`, en la carpeta de la cuenta **al lado de `public_html`** (no adentro), con `'entorno' => 'produccion'`.
-5. **Forzar HTTPS** y activar compresión y caché en el `.htaccess` de la raíz.
-6. **Terminal:** `php public_html/privado/usuarios.php crear` para cada persona del equipo.
+3. **Archivos del sitio:** clonarlos como se explica arriba, o subirlos a mano incluidos `admin/`, `privado/` y los `.htaccess`. `docs/`, `README.md` y `.git` quedan bloqueados para la web.
+4. **Crear la configuración real** a partir de `config.ejemplo.php` como `doblebarra-config.php`, **dos carpetas arriba de `privado/`** (con la estructura recomendada: `/home/usuario/doblebarra-config.php`, fuera de toda carpeta pública), con `'entorno' => 'produccion'`. Si el sitio está en una subcarpeta de `public_html`, usar `privado/config.php` (protegido por su `.htaccess`).
+5. **HTTPS:** el `.htaccess` de la raíz ya fuerza HTTPS y activa la compresión y la caché. Revisar en "SSL/TLS Status" que el dominio o subdominio tenga certificado; si todavía no lo tiene, comentar las líneas de HTTPS hasta que esté.
+6. **Terminal:** entrar a la carpeta del sitio (`cd ~/doblebarra`) y ejecutar `php privado/usuarios.php crear` para cada persona del equipo.
 7. **Probar:** ingreso, contraseña incorrecta, bloqueo tras 5 intentos y cierre de sesión.
 
 Formulario "Sumate al equipo": activar el mail de destino en FormSubmit y reemplazar `COMPLETAR-alias-formsubmit` en el `action` del formulario de `index.html` por el alias que da FormSubmit.

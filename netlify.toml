@@ -1,0 +1,27 @@
+# Netlify solo publica archivos estáticos: no ejecuta PHP ni lee los .htaccess.
+# El panel funciona únicamente en un hosting con PHP (ver README). Mientras el sitio siga en
+# Netlify, estas reglas evitan que se entregue el código del panel y la documentación.
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/index.html"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/privado/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
