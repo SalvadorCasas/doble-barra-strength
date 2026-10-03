@@ -1,22 +1,17 @@
-// Carga y muestra las entradas del blog desde Sanity (CMS headless).
-// Mientras SANITY.proyecto esté vacío no hay entradas: se muestra el aviso "Muy pronto".
+// Carga y muestra las entradas del blog.
+// Las entradas reales van a salir de la base de datos del sitio (panel propio en PHP, en desarrollo).
+// Mientras FUENTE_ENTRADAS esté vacío no hay entradas: se muestra el aviso "Muy pronto".
 // Para probar el diseño con las entradas de ejemplo, agregar ?ejemplos a la dirección
 // (por ejemplo, index.html?ejemplos o blog/index.html?ejemplos).
 // Todo el contenido se inserta con textContent/createElement (nunca innerHTML) para evitar
-// que un texto del CMS pueda inyectar código.
+// que un texto cargado en el panel pueda inyectar código.
 
-const SANITY = {
-  proyecto: '', // COMPLETAR: ID del proyecto de Sanity (se ve en sanity.io/manage)
-  dataset: 'production',
-  versionApi: 'v2025-02-19',
-};
-
-const CAMPOS_TARJETA = 'titulo, "slug": slug.current, fecha, autor, resumen, imagen{alt, "ref": asset._ref}';
+const FUENTE_ENTRADAS = ''; // COMPLETAR: dirección de la API del blog cuando exista el panel
 const CANAL_YOUTUBE = 'https://www.youtube.com/@doblebarra.strength';
-const MOSTRAR_EJEMPLOS = !SANITY.proyecto && new URLSearchParams(window.location.search).has('ejemplos');
+const MOSTRAR_EJEMPLOS = !FUENTE_ENTRADAS && new URLSearchParams(window.location.search).has('ejemplos');
 
-// ---------- Entradas de ejemplo (solo con ?ejemplos y sin Sanity configurado) ----------
-// Tienen la misma forma que las de Sanity, así el diseño se prueba con datos realistas.
+// ---------- Entradas de ejemplo (solo con ?ejemplos y sin la API conectada) ----------
+// El cuerpo es una lista de bloques (párrafos, subtítulos, listas, citas e imágenes).
 const parrafoEjemplo = (texto, extra = {}) => ({
   _type: 'block',
   style: 'normal',
@@ -26,7 +21,7 @@ const parrafoEjemplo = (texto, extra = {}) => ({
 });
 
 const CUERPO_EJEMPLO = [
-  parrafoEjemplo('[EJEMPLO] Este es un texto de ejemplo para ver cómo se leen los párrafos del blog. El contenido real lo cargan Ivan, Luca u otros administradores desde el panel de Sanity.'),
+  parrafoEjemplo('[EJEMPLO] Este es un texto de ejemplo para ver cómo se leen los párrafos del blog. El contenido real lo cargan Ivan, Luca u otros administradores desde el panel del sitio.'),
   parrafoEjemplo('Subtítulo de ejemplo', { style: 'h2' }),
   {
     _type: 'block',
@@ -81,33 +76,14 @@ const ENTRADAS_EJEMPLO = [
 ];
 
 // ---------- Lectura de datos ----------
-async function consultarSanity(consulta, parametros = {}) {
-  const url = new URL(`https://${SANITY.proyecto}.apicdn.sanity.io/${SANITY.versionApi}/data/query/${SANITY.dataset}`);
-  url.searchParams.set('query', consulta);
-  Object.entries(parametros).forEach(([nombre, valor]) => {
-    url.searchParams.set(`$${nombre}`, JSON.stringify(valor));
-  });
-
-  const respuesta = await fetch(url);
-  if (!respuesta.ok) throw new Error(`Sanity respondió ${respuesta.status}`);
-  const datos = await respuesta.json();
-  return datos.result;
-}
-
+// COMPLETAR: cuando exista el panel, estas funciones van a pedir las entradas a FUENTE_ENTRADAS.
 async function obtenerEntradas(cantidad) {
-  if (!SANITY.proyecto) {
-    if (!MOSTRAR_EJEMPLOS) return [];
-    return cantidad ? ENTRADAS_EJEMPLO.slice(0, cantidad) : ENTRADAS_EJEMPLO;
-  }
-  const limite = cantidad ? `[0...${cantidad}]` : '';
-  return consultarSanity(`*[_type == "entrada" && defined(slug.current)] | order(fecha desc)${limite}{${CAMPOS_TARJETA}}`);
+  if (!MOSTRAR_EJEMPLOS) return [];
+  return cantidad ? ENTRADAS_EJEMPLO.slice(0, cantidad) : ENTRADAS_EJEMPLO;
 }
 
 async function obtenerEntrada(slug) {
-  if (!SANITY.proyecto) {
-    return MOSTRAR_EJEMPLOS ? ENTRADAS_EJEMPLO.find((entrada) => entrada.slug === slug) || null : null;
-  }
-  return consultarSanity(`*[_type == "entrada" && slug.current == $slug][0]{${CAMPOS_TARJETA}, cuerpo}`, { slug });
+  return MOSTRAR_EJEMPLOS ? ENTRADAS_EJEMPLO.find((entrada) => entrada.slug === slug) || null : null;
 }
 
 // ---------- Ayudas ----------
@@ -128,27 +104,14 @@ function crearFecha(fecha) {
   return tiempo;
 }
 
-// Devuelve src, srcset y medidas de una imagen local (ejemplo) o de Sanity.
-// Sanity entrega WebP y el ancho pedido directamente desde la URL (?w=…&auto=format).
+// Devuelve src, srcset y medidas de una imagen (ruta relativa a la raíz del sitio)
 function datosImagen(imagen, raiz) {
-  if (!imagen) return null;
-  if (imagen.local) {
-    return { src: raiz + imagen.local, ancho: imagen.ancho, alto: imagen.alto, alt: imagen.alt || '' };
-  }
-  if (!imagen.ref) return null;
-
-  // Formato de la referencia: image-<id>-<ancho>x<alto>-<formato>
-  const [, id, medidas, formato] = imagen.ref.split('-');
-  const [ancho, alto] = medidas.split('x').map(Number);
-  const base = `https://cdn.sanity.io/images/${SANITY.proyecto}/${SANITY.dataset}/${id}-${medidas}.${formato}`;
-  const anchos = [400, 800, 1200, 1600].filter((medida) => medida <= ancho);
-  if (!anchos.length) anchos.push(ancho);
-
+  if (!imagen?.local) return null;
   return {
-    src: `${base}?w=${Math.min(800, ancho)}&auto=format`,
-    srcset: anchos.map((medida) => `${base}?w=${medida}&auto=format ${medida}w`).join(', '),
-    ancho,
-    alto,
+    src: raiz + imagen.local,
+    srcset: imagen.srcset,
+    ancho: imagen.ancho,
+    alto: imagen.alto,
     alt: imagen.alt || '',
   };
 }
@@ -189,7 +152,7 @@ function crearEnlace(direccion) {
   return enlace;
 }
 
-// ---------- Texto enriquecido de Sanity (Portable Text) → HTML ----------
+// ---------- Cuerpo de la entrada (lista de bloques) → HTML ----------
 function agregarTexto(contenedor, bloque) {
   const definiciones = Object.fromEntries((bloque.markDefs || []).map((definicion) => [definicion._key, definicion]));
 
@@ -240,7 +203,7 @@ function crearCuerpo(bloques, raiz) {
       agregarTexto(elemento, bloque);
       fragmento.append(elemento);
     } else if (bloque._type === 'image') {
-      const datos = datosImagen({ ...bloque, ref: bloque.asset?._ref }, raiz);
+      const datos = datosImagen(bloque, raiz);
       if (!datos) return;
       const figura = document.createElement('figure');
       figura.append(crearImagen(datos, { sizes: '(min-width: 768px) 44rem, 100vw' }));

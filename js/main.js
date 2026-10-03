@@ -74,7 +74,9 @@ function iniciarMenu() {
 }
 
 // ---------- Tema claro / oscuro ----------
-// El botón indica con aria-pressed si el modo oscuro está activo y guarda la elección.
+// El botón muestra el modo al que lleva: en oscuro dice "Modo claro" (con un sol) y en claro
+// dice "Modo oscuro" (con una luna). Ese texto es también su nombre para lectores de pantalla.
+// La elección se guarda para las demás páginas.
 function iniciarTema() {
   const boton = document.querySelector('.boton-tema');
   if (!boton) return;
@@ -82,7 +84,16 @@ function iniciarTema() {
   const raiz = document.documentElement;
   const sistemaOscuro = window.matchMedia('(prefers-color-scheme: dark)');
   const temaActual = () => raiz.dataset.tema || (sistemaOscuro.matches ? 'oscuro' : 'claro');
-  const actualizarBoton = () => boton.setAttribute('aria-pressed', String(temaActual() === 'oscuro'));
+  const texto = boton.querySelector('.boton-tema__texto');
+  const luna = boton.querySelector('.icono-luna');
+  const sol = boton.querySelector('.icono-sol');
+  const actualizarBoton = () => {
+    const esOscuro = temaActual() === 'oscuro';
+    if (texto) texto.textContent = esOscuro ? 'Modo claro' : 'Modo oscuro';
+    // Los íconos son SVG: no tienen la propiedad .hidden, por eso se usa el atributo
+    luna?.toggleAttribute('hidden', esOscuro);
+    sol?.toggleAttribute('hidden', !esOscuro);
+  };
 
   boton.hidden = false;
   actualizarBoton();
