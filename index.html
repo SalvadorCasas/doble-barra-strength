@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Doble Barra Strength | Equipo de powerlifting</title>
+  <meta name="description" content="Doble Barra Strength es el equipo de powerlifting de Ivan Casas y Luca Bettinalio. Conocé al equipo, mirá su contenido y sumate como alumno.">
+  <!-- COMPLETAR: favicon definitivo y etiquetas Open Graph cuando haya logo y dominio (P-19, P-20) -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/tema.js"></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/blog.js" defer></script>
+  <script src="js/formulario.js" defer></script>
+</head>
+<body data-raiz="">
+
+  <a href="#contenido" class="saltar-contenido">Saltar al contenido</a>
+
+  <!-- ===================== CABECERA ===================== -->
+  <!-- Igual en las 3 páginas: si se cambia, actualizar index.html, blog/index.html y blog/entrada.html -->
+  <header class="header">
+    <div class="contenedor header__contenido">
+      <!-- COMPLETAR: reemplazar el logo provisorio por el del equipo (P-01) -->
+      <a href="#inicio" class="marca">
+        <img class="marca__logo" src="img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+        <span class="marca__texto">
+          <span class="marca__nombre">Doble Barra</span>
+          <span class="marca__sufijo">Strength</span>
+        </span>
+      </a>
+
+      <button type="button" class="boton-icono boton-menu" aria-expanded="false" aria-controls="menu-principal">
+        <svg class="icono icono-abrir" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <svg class="icono icono-cerrar" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        <span class="oculto-accesible">Menú</span>
+      </button>
+
+      <div class="header__menu" id="menu-principal">
+        <nav aria-label="Principal">
+          <ul class="nav__lista">
+            <li><a class="nav__enlace" href="#nosotros">Nosotros</a></li>
+            <!-- COMPLETAR: volver a agregar "Servicios" cuando la sección tenga contenido (P-09) -->
+            <li><a class="nav__enlace" href="#youtube">YouTube</a></li>
+            <li><a class="nav__enlace" href="blog/index.html">Blog</a></li>
+            <li><a class="boton boton--primario nav__cta" href="#sumate">Sumate</a></li>
+          </ul>
+        </nav>
+        <button type="button" class="boton-tema" aria-pressed="false" hidden>
+          <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <span class="boton-tema__texto">Modo oscuro</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido" tabindex="-1">
+
+    <!-- ===================== HERO ===================== -->
+    <section id="inicio" class="hero zona-oscura">
+      <!-- COMPLETAR: foto de entrenamiento del equipo en WebP con srcset (P-02) -->
+      <img class="hero__fondo" src="img/placeholders/placeholder-hero.svg" alt="" width="1920" height="1080" fetchpriority="high">
+      <div class="contenedor hero__contenido">
+        <p class="etiqueta">Equipo de powerlifting</p>
+        <!-- COMPLETAR: título provisorio, a aprobar por el equipo (P-03) -->
+        <h1 class="hero__titulo">Fuerza con método, en <span class="resaltado">comunidad</span></h1>
+        <p class="hero__subtitulo">Ivan Casas y Luca Bettinalio asesoran y entrenan atletas de powerlifting.</p>
+        <a class="boton boton--primario boton--grande" href="#sumate">
+          Sumate al equipo
+          <svg class="icono boton__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== FRANJA DE MOVIMIENTOS ===================== -->
+    <div class="franja zona-oscura">
+      <ul class="contenedor franja__lista" role="list" aria-label="Los tres movimientos del powerlifting">
+        <li>Sentadilla</li>
+        <li>Press de banca</li>
+        <li>Peso muerto</li>
+      </ul>
+    </div>
+
+    <!-- ===================== NÚMEROS ===================== -->
+    <!-- COMPLETAR: si el equipo pasa más cifras, sumar más bloques .numero (P-04) -->
+    <section id="numeros" class="seccion seccion--alt">
+      <div class="contenedor numeros__grilla">
+        <div class="numero revelar">
+          <h2 class="antetitulo">Nuestros números</h2>
+          <p class="numero__valor">
+            <span data-contador="100" data-prefijo="+" aria-hidden="true">+100</span>
+            <span class="oculto-accesible">Más de 100</span>
+          </p>
+          <p class="numero__texto">asesorados pasaron por el equipo</p>
+          <span class="numero__barra" aria-hidden="true"></span>
+        </div>
+        <p class="numeros__texto revelar">Asesoramos y entrenamos atletas de powerlifting, y compartimos lo que aprendemos en YouTube y redes.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE NOSOTROS ===================== -->
+    <section id="nosotros" class="seccion">
+      <div class="fondo-decorativo" aria-hidden="true"><span class="texto-fondo">Equipo</span></div>
+      <div class="contenedor">
+        <div class="seccion__cabecera revelar">
+          <h2 class="seccion__titulo">Sobre nosotros</h2>
+          <p class="seccion__intro">
+            Somos un equipo de powerlifting formado por los entrenadores Ivan Casas y Luca Bettinalio. Queremos compartir
+            conocimiento, aprender en comunidad y contribuir al desarrollo de mejores atletas, entrenadores y personas.
+          </p>
+        </div>
+
+        <div class="entrenadores">
+          <!-- COMPLETAR: foto real de Ivan Casas (P-06). Su presentación va en un <p> después de .entrenador__media -->
+          <article class="entrenador revelar">
+            <div class="entrenador__media">
+              <img class="entrenador__foto" src="img/placeholders/placeholder-ivan.svg" alt="Retrato de Ivan Casas" width="800" height="1000" loading="lazy">
+              <div class="entrenador__info sobre-foto">
+                <h3 class="entrenador__nombre">Ivan Casas</h3>
+                <p class="entrenador__rol">Entrenador</p>
+              </div>
+            </div>
+            <a class="enlace-red" href="https://www.instagram.com/ivancasas.pwch/" target="_blank" rel="noopener noreferrer">
+              @ivancasas.pwch<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+            </a>
+          </article>
+
+          <!-- COMPLETAR: foto real de Luca Bettinalio (P-07). Su presentación va en un <p> después de .entrenador__media -->
+          <article class="entrenador revelar">
+            <div class="entrenador__media">
+              <img class="entrenador__foto" src="img/placeholders/placeholder-luca.svg" alt="Retrato de Luca Bettinalio" width="800" height="1000" loading="lazy">
+              <div class="entrenador__info sobre-foto">
+                <h3 class="entrenador__nombre">Luca Bettinalio</h3>
+                <p class="entrenador__rol">Entrenador</p>
+              </div>
+            </div>
+            <a class="enlace-red" href="https://www.instagram.com/lucabettinalio/" target="_blank" rel="noopener noreferrer">
+              @lucabettinalio<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICIOS ===================== -->
+    <!-- COMPLETAR: sección oculta hasta que el equipo defina sus servicios (P-09). Para activarla,
+         descomentar este bloque, completar las tarjetas y volver a agregar "Servicios" al menú de las 3 páginas.
+    <section id="servicios" class="seccion seccion--alt">
+      <div class="fondo-decorativo" aria-hidden="true"><span class="texto-fondo">Servicios</span></div>
+      <div class="contenedor">
+        <div class="seccion__cabecera revelar">
+          <h2 class="seccion__titulo">Servicios</h2>
+        </div>
+        <ul class="grilla-servicios" role="list">
+          <li class="servicio revelar">
+            <span class="servicio__numero" aria-hidden="true">01</span>
+            <h3 class="servicio__titulo">Nombre del servicio</h3>
+            <p>Descripción breve del servicio.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+    -->
+
+    <!-- ===================== LLAMADO A LA ACCIÓN ===================== -->
+    <section class="banda-cta zona-roja">
+      <div class="contenedor banda-cta__contenido revelar">
+        <div>
+          <h2 class="banda-cta__titulo">¿Querés ser el próximo?</h2>
+          <p class="banda-cta__texto">Más de 100 asesorados ya pasaron por el equipo.</p>
+        </div>
+        <a class="boton boton--primario boton--grande" href="#sumate">
+          Sumate al equipo
+          <svg class="icono boton__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIOS ===================== -->
+    <!-- COMPLETAR: sección opcional (P-11). Se maqueta solo si el equipo confirma y entrega
+         testimonios reales con permiso de cada alumno. Nunca inventar testimonios. -->
+
+    <!-- ===================== YOUTUBE ===================== -->
+    <section id="youtube" class="seccion seccion--alt">
+      <div class="fondo-decorativo" aria-hidden="true"><span class="texto-fondo">Videos</span></div>
+      <div class="contenedor">
+        <div class="seccion__cabecera seccion__encabezado revelar">
+          <div>
+            <h2 class="seccion__titulo">Contenido en YouTube</h2>
+            <p class="seccion__intro">Podcasts, vlogs y técnica: compartimos lo que aprendemos sobre powerlifting en nuestro canal.</p>
+          </div>
+          <a class="boton boton--secundario" href="https://www.youtube.com/@doblebarra.strength" target="_blank" rel="noopener noreferrer">
+            Ver el canal<span class="oculto-accesible"> de YouTube (se abre en una pestaña nueva)</span>
+            <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+          </a>
+        </div>
+
+        <!-- Los 3 videos más recientes del canal al 3/10/2026; el equipo puede elegir otros (P-12).
+             Para cambiar uno: reemplazar el ID en href, data-video y la miniatura, y el título. -->
+        <ul class="videos" role="list">
+          <li class="revelar">
+            <a class="video__enlace" href="https://www.youtube.com/watch?v=-dXabcn3xzU" data-video="-dXabcn3xzU">
+              <span class="video__miniatura">
+                <img src="https://i.ytimg.com/vi/-dXabcn3xzU/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+                <span class="video__play" aria-hidden="true"><svg class="icono" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+              </span>
+              <span class="oculto-accesible">Reproducir video: </span>
+              <span class="video__titulo">PODCAST: ¿Quién está detrás de Barra Lista? | Santi nos cuenta cómo nació la comunidad</span>
+            </a>
+          </li>
+          <li class="revelar">
+            <a class="video__enlace" href="https://www.youtube.com/watch?v=Jxntvsw2URw" data-video="Jxntvsw2URw">
+              <span class="video__miniatura">
+                <img src="https://i.ytimg.com/vi/Jxntvsw2URw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+                <span class="video__play" aria-hidden="true"><svg class="icono" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+              </span>
+              <span class="oculto-accesible">Reproducir video: </span>
+              <span class="video__titulo">Vlog, un día más en la oficina</span>
+            </a>
+          </li>
+          <li class="revelar">
+            <a class="video__enlace" href="https://www.youtube.com/watch?v=eJ0U-dH2CM4" data-video="eJ0U-dH2CM4">
+              <span class="video__miniatura">
+                <img src="https://i.ytimg.com/vi/eJ0U-dH2CM4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy">
+                <span class="video__play" aria-hidden="true"><svg class="icono" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+              </span>
+              <span class="oculto-accesible">Reproducir video: </span>
+              <span class="video__titulo">PODCAST con Brian Marco | Media Oficial de FALPO | Powerlifting Argentina</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== BLOG ===================== -->
+    <section id="blog" class="seccion">
+      <div class="fondo-decorativo" aria-hidden="true"><span class="texto-fondo">Blog</span></div>
+      <div class="contenedor">
+        <div class="seccion__cabecera seccion__encabezado revelar">
+          <h2 class="seccion__titulo">Últimas entradas del blog</h2>
+          <a class="enlace-flecha" href="blog/index.html" data-blog-ver-todas>
+            Ver todas las entradas
+            <svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="blog-estado" data-blog-estado></div>
+        <ul class="lista-entradas" role="list" data-blog="lista" data-cantidad="3" data-nivel-titulo="3" data-ruta-entrada="blog/entrada.html"></ul>
+        <noscript><p>Para ver las entradas del blog necesitás tener JavaScript activado.</p></noscript>
+      </div>
+    </section>
+
+    <!-- ===================== SUMATE AL EQUIPO ===================== -->
+    <section id="sumate" class="seccion seccion--alt sumate">
+      <div class="fondo-decorativo" aria-hidden="true"><span class="texto-fondo">Sumate</span></div>
+      <div class="contenedor sumate__grilla">
+        <div class="sumate__intro revelar">
+          <h2 class="seccion__titulo">Sumate al equipo</h2>
+          <p class="seccion__intro">Entrar al equipo lleva dos pasos.</p>
+          <!-- COMPLETAR: plazo de respuesta, duración de la videollamada y si tiene costo (P-14) -->
+          <ol class="pasos" role="list">
+            <li class="paso">
+              <h3 class="paso__titulo">Completá el formulario</h3>
+              <p>Contanos quién sos, cuál es tu objetivo y con quién te gustaría entrenar.</p>
+            </li>
+            <li class="paso">
+              <h3 class="paso__titulo">Videollamada inicial</h3>
+              <p>Con tus respuestas coordinamos una videollamada con el entrenador para conocerte y empezar a trabajar juntos.</p>
+            </li>
+          </ol>
+        </div>
+
+        <div>
+          <!-- COMPLETAR: reemplazar COMPLETAR-alias-formsubmit por el alias que da FormSubmit
+               al activar el mail que recibe las solicitudes (P-16).
+               Campos obligatorios según la propuesta de CLAUDE.md, a confirmar por el equipo (P-21).
+               Texto sobre el uso de los datos personales: agregar antes del botón cuando lo defina el equipo (P-15). -->
+          <form class="formulario" id="formulario-sumate" action="https://formsubmit.co/COMPLETAR-alias-formsubmit" method="POST">
+            <input type="hidden" name="_subject" value="Nueva solicitud para sumarse a Doble Barra Strength">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <div class="campo-trampa">
+              <label for="_honey">No completar este campo</label>
+              <input type="text" id="_honey" name="_honey" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="resumen-errores" id="resumen-errores" tabindex="-1" hidden>
+              <h3 class="resumen-errores__titulo"></h3>
+              <ul class="resumen-errores__lista"></ul>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="nombre">Nombre completo <span class="campo__obligatorio">(obligatorio)</span></label>
+              <input class="campo__control" type="text" id="nombre" name="nombre" autocomplete="name" required aria-describedby="nombre-error">
+              <p class="campo__error" id="nombre-error" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="email">Mail <span class="campo__obligatorio">(obligatorio)</span></label>
+              <input class="campo__control" type="email" id="email" name="email" autocomplete="email" spellcheck="false" required aria-describedby="email-error">
+              <p class="campo__error" id="email-error" hidden></p>
+            </div>
+
+            <div class="campo-fila">
+              <div class="campo">
+                <label class="campo__etiqueta" for="edad">Edad (años)</label>
+                <input class="campo__control" type="text" id="edad" name="edad" inputmode="numeric" aria-describedby="edad-error">
+                <p class="campo__error" id="edad-error" hidden></p>
+              </div>
+              <div class="campo">
+                <label class="campo__etiqueta" for="altura">Altura (cm)</label>
+                <input class="campo__control" type="text" id="altura" name="altura" inputmode="numeric" aria-describedby="altura-error">
+                <p class="campo__error" id="altura-error" hidden></p>
+              </div>
+              <div class="campo">
+                <label class="campo__etiqueta" for="peso">Peso (kg)</label>
+                <input class="campo__control" type="text" id="peso" name="peso" inputmode="decimal" aria-describedby="peso-error">
+                <p class="campo__error" id="peso-error" hidden></p>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="como_nos_conociste">¿Cómo nos conociste?</label>
+              <input class="campo__control" type="text" id="como_nos_conociste" name="como_nos_conociste" aria-describedby="como_nos_conociste-error">
+              <p class="campo__error" id="como_nos_conociste-error" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="por_que">¿Por qué querés trabajar con nosotros?</label>
+              <textarea class="campo__control" id="por_que" name="por_que" rows="4" aria-describedby="por_que-error"></textarea>
+              <p class="campo__error" id="por_que-error" hidden></p>
+            </div>
+
+            <fieldset class="campo" aria-describedby="ocupacion-error">
+              <legend class="campo__etiqueta">¿Trabajás, estudiás o ambas?</legend>
+              <div class="opciones">
+                <label class="opcion"><input type="radio" id="ocupacion-trabajo" name="ocupacion" value="Trabajo"> Trabajo</label>
+                <label class="opcion"><input type="radio" id="ocupacion-estudio" name="ocupacion" value="Estudio"> Estudio</label>
+                <label class="opcion"><input type="radio" id="ocupacion-ambas" name="ocupacion" value="Ambas"> Ambas</label>
+                <label class="opcion"><input type="radio" id="ocupacion-ninguna" name="ocupacion" value="Ninguna"> Ninguna</label>
+              </div>
+              <p class="campo__error" id="ocupacion-error" hidden></p>
+            </fieldset>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="profesion">¿Cuál es tu profesión actual y/o qué estás estudiando?</label>
+              <input class="campo__control" type="text" id="profesion" name="profesion" aria-describedby="profesion-error">
+              <p class="campo__error" id="profesion-error" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="objetivo">¿Cuál es tu objetivo principal? <span class="campo__obligatorio">(obligatorio)</span></label>
+              <textarea class="campo__control" id="objetivo" name="objetivo" rows="4" required aria-describedby="objetivo-error"></textarea>
+              <p class="campo__error" id="objetivo-error" hidden></p>
+            </div>
+
+            <fieldset class="campo" aria-describedby="entrenador-error">
+              <legend class="campo__etiqueta">¿Con quién te gustaría trabajar en el equipo? <span class="campo__obligatorio">(obligatorio)</span></legend>
+              <div class="opciones opciones--anchas">
+                <label class="opcion"><input type="radio" id="entrenador-luca" name="entrenador" value="Luca Bettinalio" required> Luca Bettinalio</label>
+                <label class="opcion"><input type="radio" id="entrenador-ivan" name="entrenador" value="Ivan Casas" required> Ivan Casas</label>
+              </div>
+              <p class="campo__error" id="entrenador-error" hidden></p>
+            </fieldset>
+
+            <div class="campo">
+              <label class="campo__etiqueta" for="telefono">Teléfono <span class="campo__obligatorio">(obligatorio)</span></label>
+              <p class="campo__ayuda" id="telefono-ayuda">Con código de país y de área, así te contactamos apenas veamos tu solicitud.</p>
+              <input class="campo__control" type="tel" id="telefono" name="telefono" autocomplete="tel" required aria-describedby="telefono-ayuda telefono-error">
+              <p class="campo__error" id="telefono-error" hidden></p>
+            </div>
+
+            <button type="submit" class="boton boton--primario boton--grande boton--ancho">
+              Enviar solicitud
+              <svg class="icono boton__flecha" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <p class="formulario__estado" role="status"></p>
+            <div class="formulario__alerta" role="alert"></div>
+          </form>
+
+          <div class="formulario-exito" id="formulario-exito" tabindex="-1" hidden>
+            <h3 class="formulario-exito__titulo">¡Recibimos tu solicitud!</h3>
+            <p>Ese fue el paso 1. Ahora te vamos a contactar para coordinar la videollamada inicial con el entrenador.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="footer zona-oscura">
+    <div class="contenedor">
+      <div class="footer__grilla">
+        <div class="footer__marca">
+          <a href="#inicio" class="marca">
+            <img class="marca__logo" src="img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+            <span class="marca__texto">
+              <span class="marca__nombre">Doble Barra</span>
+              <span class="marca__sufijo">Strength</span>
+            </span>
+          </a>
+          <!-- COMPLETAR: confirmar la redacción final de la misión con el equipo (P-17) -->
+          <p class="footer__mision">Compartir conocimiento, aprender en comunidad y contribuir al desarrollo de mejores atletas, entrenadores y personas.</p>
+        </div>
+
+        <!-- COMPLETAR: confirmar que las cuentas son de Instagram (P-18) -->
+        <div class="footer__redes">
+          <h2 class="footer__titulo">Seguinos</h2>
+          <ul role="list">
+            <li>
+              <a href="https://www.instagram.com/doblebarra.strength/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Equipo</span> @doblebarra.strength<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/ivancasas0/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Ivan Casas</span> @ivancasas.pwch<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/lucabettinalio/" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">Luca Bettinalio</span> @lucabettinalio<span class="oculto-accesible"> en Instagram (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/@doblebarra.strength" target="_blank" rel="noopener noreferrer">
+                <span class="footer__red-nombre">YouTube</span> @doblebarra.strength<span class="oculto-accesible"> (se abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__legal">© 2026 Doble Barra Strength. Todos los derechos reservados.</p>
+    </div>
+    <p class="contenedor footer__marca-grande" aria-hidden="true">Doble Barra</p>
+  </footer>
+
+</body>
+</html>
