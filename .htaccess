@@ -1,0 +1,36 @@
+# Configuración de Apache para el hosting (cPanel). En la PC no se usa.
+
+# No mostrar el listado de archivos de una carpeta sin index
+Options -Indexes
+
+# Forzar HTTPS: la cookie del panel solo viaja cifrada.
+# (Si el certificado SSL del dominio o subdominio todavía no está activo, comentar estas 4 líneas.)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Archivos del repositorio que no son parte del sitio: no se entregan
+RedirectMatch 404 /\.git(/|$)
+<FilesMatch "^(README\.md|netlify\.toml|\.gitignore|.*\.log|error_log)$">
+  Require all denied
+</FilesMatch>
+
+# Compresión: los archivos de texto viajan más livianos
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
+</IfModule>
+
+# Caché del navegador. CSS y JS por poco tiempo (1 hora) para que los cambios se vean rápido;
+# las imágenes por más tiempo. Las páginas del panel mandan su propio "no-store".
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 hour"
+  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>

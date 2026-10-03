@@ -91,6 +91,22 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
 - **Decisión:** link discreto "Acceso del equipo" en el footer.
 - **Motivo:** el equipo lo encuentra fácil y no distrae a los visitantes. Ocultarlo no agrega seguridad: la protección la da el login.
 
+### 2026-10-03 · Dónde publicar la demo
+- **Contexto:** la demo se había publicado en Netlify, que no ejecuta PHP. El login se descargaba como archivo, y el código del panel quedaba a la vista. No se expuso ninguna contraseña, porque `config.php` nunca estuvo en el repositorio.
+- **Opciones:**
+  - subcarpeta o subdominio en el hosting Duplika del desarrollador;
+  - hosting PHP gratuito;
+  - seguir en Netlify sin login;
+  - volver a Sanity.
+- **Decisión:** publicar la demo completa en el Duplika del desarrollador, en un subdominio. El repositorio se clona con Git Version Control de cPanel y la configuración queda fuera de la carpeta pública.
+- **Motivo:**
+  - Es el mismo entorno que el definitivo y no cuesta nada extra.
+  - El código no cambia.
+  - Funciona todo, incluido el login.
+- **Además:**
+  - Se agregó `netlify.toml` para que Netlify deje de entregar el código del panel mientras siga publicado.
+  - Se agregó un `.htaccess` en la raíz que fuerza HTTPS, activa la compresión y la caché, y bloquea `.git`, `docs/` y el `README`.
+
 ### 2026-10-03 · Control de versiones
 - **Decisión:** Git y GitHub. `main` es la versión estable y los cambios se trabajan en ramas aparte (por ejemplo, `feature/login`), con commits chicos y descriptivos.
 - **Motivo:** permite volver atrás y revisar cada cambio antes de pasarlo a la versión estable.
@@ -101,9 +117,8 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
 
 | Tema | Opciones | Estado |
 |---|---|---|
-| **Hosting del equipo** | Duplika plan Inicio (verificado: PHP 8.3, MariaDB 11.4, 1 base de datos, Apache) · otro proveedor con PHP y MySQL | El equipo tiene que contratarlo. Al hacerlo, revisar las extensiones de PHP `pdo_mysql`, `mbstring`, `fileinfo` y `gd` |
+| **Hosting definitivo del equipo** | Duplika plan Inicio (verificado: PHP 8.3, MariaDB 11.4, 1 base de datos, Apache) · otro proveedor con PHP y MySQL. **No sirven los hostings estáticos** (Netlify, GitHub Pages) | El equipo tiene que contratarlo. Mientras tanto, la demo está en el Duplika del desarrollador |
 | **Procesar el formulario con PHP** | Seguir con FormSubmit · procesarlo en el propio hosting con PHP (valida del lado del servidor, puede guardar las solicitudes en la base para verlas en el panel y no depende de un tercero) | A evaluar ahora que hay PHP |
 | **Campos obligatorios del formulario** | Propuesta: nombre, mail, objetivo, entrenador y teléfono | A confirmar por el equipo |
 | **Sección de testimonios** | Incluirla solo con testimonios reales y con permiso · no incluirla | A confirmar por el equipo |
 | **Fuentes tipográficas** | Google Fonts (hoy) · alojarlas en el propio sitio | Propuesta: alojarlas en el sitio, porque elimina una dependencia externa y mejora la velocidad |
-| **Compresión y caché** | `.htaccess` con compresión y caché del navegador | Al publicar, cuando haya hosting |
