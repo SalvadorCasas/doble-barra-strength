@@ -181,8 +181,82 @@ function iniciarVideos() {
   });
 }
 
+// ---------- Video del hero: intro del logo + humo en movimiento ----------
+// 1) La intro (2,3 s) se reproduce una vez. 2) Al terminar, arranca el video del humo, que empieza en
+// el mismo cuadro y se repite sin fin. Como el movimiento no termina, hay un botón para pausarlo
+// (WCAG 2.2.2) y, además, se pausa solo mientras el hero no se ve (ahorra batería y procesador).
+// Si la persona pidió reducir el movimiento o el navegador no deja reproducir, queda la portada fija.
+function iniciarVideoHero() {
+  const intro = document.querySelector('[data-video-intro]');
+  const humo = document.querySelector('[data-video-humo]');
+  const boton = document.querySelector('[data-pausa-video]');
+  if (!intro) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let pausadoPorPersona = false;
+  const videoActual = () => (humo && !humo.hidden ? humo : intro);
+
+  const actualizarBoton = () => {
+    if (!boton) return;
+    const pausado = videoActual().paused;
+    boton.querySelector('[data-pausa-texto]').textContent = pausado
+      ? 'Reproducir la animación del logo'
+      : 'Pausar la animación del logo';
+    boton.querySelector('.icono-pausa').toggleAttribute('hidden', pausado);
+    boton.querySelector('.icono-reproducir').toggleAttribute('hidden', !pausado);
+  };
+
+  const reproducir = (video) => video.play().then(actualizarBoton).catch(() => {
+    // Reproducción bloqueada (por ejemplo, modo ahorro de batería): queda la imagen fija
+  });
+
+  if (humo) {
+    humo.preload = 'auto';
+    humo.load();
+    intro.addEventListener('ended', () => {
+      humo.hidden = false;
+      if (!pausadoPorPersona) reproducir(humo);
+    });
+    // Se oculta la intro recién cuando el humo ya se está viendo, para que no haya un parpadeo
+    humo.addEventListener('playing', () => { intro.hidden = true; }, { once: true });
+  }
+
+  if (boton) {
+    boton.hidden = false;
+    boton.addEventListener('click', () => {
+      const video = videoActual();
+      if (video.paused && !video.ended) {
+        pausadoPorPersona = false;
+        reproducir(video);
+      } else if (video.ended) {
+        // Si se tocó justo al terminar la intro, se sigue con el humo
+        pausadoPorPersona = false;
+        if (humo) { humo.hidden = false; reproducir(humo); }
+      } else {
+        pausadoPorPersona = true;
+        video.pause();
+        actualizarBoton();
+      }
+    });
+  }
+
+  // Pausa automática cuando el hero sale de la pantalla
+  const hero = intro.closest('.hero');
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entrada]) => {
+      const video = videoActual();
+      if (pausadoPorPersona || video.ended) return;
+      if (entrada.isIntersecting) reproducir(video);
+      else video.pause();
+    }).observe(hero);
+  } else {
+    reproducir(intro);
+  }
+}
+
 iniciarMenu();
 iniciarTema();
+iniciarVideoHero();
 iniciarHeader();
 iniciarRevelado();
 iniciarContadores();

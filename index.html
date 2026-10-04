@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Doble Barra Strength | Equipo de powerlifting</title>
   <meta name="description" content="Doble Barra Strength es el equipo de powerlifting de Ivan Casas y Luca Bettinalio. Conocé al equipo, mirá su contenido y sumate como alumno.">
-  <!-- COMPLETAR: favicon definitivo y etiquetas Open Graph cuando haya logo y dominio (P-19, P-20) -->
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- COMPLETAR: etiquetas Open Graph cuando haya dominio definitivo (P-19) -->
+  <link rel="icon" href="favicon-48.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@700&display=swap">
@@ -26,7 +27,7 @@
     <div class="contenedor header__contenido">
       <!-- COMPLETAR: reemplazar el logo provisorio por el del equipo (P-01) -->
       <a href="#inicio" class="marca">
-        <img class="marca__logo" src="img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+        <img class="marca__logo logo-adaptable" src="img/marca/marca-db-160.webp" alt="" width="44" height="44">
         <span class="marca__texto">
           <span class="marca__nombre">Doble Barra</span>
           <span class="marca__sufijo">Strength</span>
@@ -62,8 +63,27 @@
 
     <!-- ===================== HERO ===================== -->
     <section id="inicio" class="hero zona-oscura">
-      <!-- COMPLETAR: foto de entrenamiento del equipo en WebP con srcset (P-02) -->
-      <img class="hero__fondo" src="img/placeholders/placeholder-hero.svg" alt="" width="1920" height="1080" fetchpriority="high">
+      <!-- Videos decorativos (sin audio; el nombre del equipo ya está en el texto). js/main.js:
+           1) reproduce una vez la intro del logo (2,3 s);
+           2) sigue con el humo en movimiento, que se repite (empieza en el mismo cuadro donde termina la intro);
+           3) muestra el botón para pausar, obligatorio porque el movimiento no termina (WCAG 2.2.2).
+           Si la persona pidió reducir el movimiento, no se reproduce nada y queda la portada fija.
+           Celular: versiones de 1280 px (más livianas). Escritorio y pantallas con escalado: 1920 px. -->
+      <div class="hero__media">
+        <video class="hero__video" muted playsinline preload="auto" poster="img/marca/intro-portada-1920.webp" width="1920" height="1014" aria-hidden="true" data-video-intro>
+          <source src="video/intro-1280.mp4" type="video/mp4" media="(max-width: 767px)">
+          <source src="video/intro-1920.mp4" type="video/mp4">
+        </video>
+        <video class="hero__video" muted playsinline loop preload="none" width="1920" height="1014" aria-hidden="true" data-video-humo hidden>
+          <source src="video/humo-1280.mp4" type="video/mp4" media="(max-width: 767px)">
+          <source src="video/humo-1920.mp4" type="video/mp4">
+        </video>
+        <button type="button" class="boton-icono hero__pausa" data-pausa-video hidden>
+          <svg class="icono icono-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg>
+          <svg class="icono icono-reproducir" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M8 5v14l11-7z"/></svg>
+          <span class="oculto-accesible" data-pausa-texto>Pausar la animación del logo</span>
+        </button>
+      </div>
       <div class="contenedor hero__contenido">
         <p class="etiqueta">Equipo de powerlifting</p>
         <!-- COMPLETAR: título provisorio, a aprobar por el equipo (P-03) -->
@@ -115,10 +135,10 @@
         </div>
 
         <div class="entrenadores">
-          <!-- COMPLETAR: foto real de Ivan Casas (P-06). Su presentación va en un <p> después de .entrenador__media -->
+          <!-- COMPLETAR: presentación de Ivan (P-06). Va en un <p> después de .entrenador__media -->
           <article class="entrenador revelar">
             <div class="entrenador__media">
-              <img class="entrenador__foto" src="img/placeholders/placeholder-ivan.svg" alt="Retrato de Ivan Casas" width="800" height="1000" loading="lazy">
+              <img class="entrenador__foto" src="img/equipo/ivan-casas-800.webp" srcset="img/equipo/ivan-casas-400.webp 400w, img/equipo/ivan-casas-800.webp 800w" sizes="(min-width: 768px) 30rem, 100vw" alt="Ivan Casas en un evento de powerlifting" width="800" height="1000" loading="lazy">
               <div class="entrenador__info sobre-foto">
                 <h3 class="entrenador__nombre">Ivan Casas</h3>
                 <p class="entrenador__rol">Entrenador</p>
@@ -130,10 +150,11 @@
             </a>
           </article>
 
-          <!-- COMPLETAR: foto real de Luca Bettinalio (P-07). Su presentación va en un <p> después de .entrenador__media -->
+          <!-- COMPLETAR: foto de Luca Bettinalio (P-07); mientras tanto se muestra el logo del equipo.
+               Su presentación va en un <p> después de .entrenador__media -->
           <article class="entrenador revelar">
-            <div class="entrenador__media">
-              <img class="entrenador__foto" src="img/placeholders/placeholder-luca.svg" alt="Retrato de Luca Bettinalio" width="800" height="1000" loading="lazy">
+            <div class="entrenador__media zona-oscura">
+              <img class="entrenador__foto entrenador__foto--marca" src="img/marca/logo-doble-barra-640.webp" alt="" width="640" height="640" loading="lazy">
               <div class="entrenador__info sobre-foto">
                 <h3 class="entrenador__nombre">Luca Bettinalio</h3>
                 <p class="entrenador__rol">Entrenador</p>
@@ -169,7 +190,8 @@
     -->
 
     <!-- ===================== LLAMADO A LA ACCIÓN ===================== -->
-    <section class="banda-cta zona-roja">
+    <section class="banda-cta zona-oscura">
+      <img class="banda-cta__fondo" src="img/entrenamiento/barra-discos-1264.webp" srcset="img/entrenamiento/barra-discos-800.webp 800w, img/entrenamiento/barra-discos-1264.webp 1264w" sizes="100vw" alt="" width="1264" height="842" loading="lazy">
       <div class="contenedor banda-cta__contenido revelar">
         <div>
           <h2 class="banda-cta__titulo">¿Querés ser el próximo?</h2>
@@ -398,15 +420,12 @@
     <div class="contenedor">
       <div class="footer__grilla">
         <div class="footer__marca">
-          <a href="#inicio" class="marca">
-            <img class="marca__logo" src="img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
-            <span class="marca__texto">
-              <span class="marca__nombre">Doble Barra</span>
-              <span class="marca__sufijo">Strength</span>
-            </span>
+          <a href="#inicio" class="footer__logo">
+            <img src="img/marca/logo-doble-barra-320.webp" srcset="img/marca/logo-doble-barra-320.webp 320w, img/marca/logo-doble-barra-640.webp 640w" sizes="10rem" alt="Doble Barra Strength, ir al inicio" width="320" height="320" loading="lazy">
           </a>
           <!-- COMPLETAR: confirmar la redacción final de la misión con el equipo (P-17) -->
           <p class="footer__mision">Compartir conocimiento, aprender en comunidad y contribuir al desarrollo de mejores atletas, entrenadores y personas.</p>
+          <img class="footer__firma" src="img/marca/firma-640.webp" alt="" width="640" height="374" loading="lazy">
         </div>
 
         <!-- COMPLETAR: confirmar que las cuentas son de Instagram (P-18) -->

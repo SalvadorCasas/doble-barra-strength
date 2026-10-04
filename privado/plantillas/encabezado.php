@@ -12,7 +12,8 @@ $prefijoTitulo = !empty($hayErrores) ? 'Error: ' : '';
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title><?= e($prefijoTitulo . $tituloPagina) ?> | Panel de Doble Barra Strength</title>
-  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon-48.png" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@700&display=swap">
@@ -29,7 +30,7 @@ $prefijoTitulo = !empty($hayErrores) ? 'Error: ' : '';
   <header class="header">
     <div class="contenedor header__contenido">
       <a href="<?= $usuario ? 'index.php' : '../index.html' ?>" class="marca">
-        <img class="marca__logo" src="../img/placeholders/placeholder-logo.svg" alt="" width="40" height="40">
+        <img class="marca__logo logo-adaptable" src="../img/marca/marca-db-160.webp" alt="" width="44" height="44">
         <span class="marca__texto">
           <span class="marca__nombre">Doble Barra</span>
           <span class="marca__sufijo"><?= $usuario ? 'Panel' : 'Strength' ?></span>
