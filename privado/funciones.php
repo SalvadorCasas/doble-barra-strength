@@ -75,3 +75,70 @@ function enviarCabecerasPanel(): void
     header('Cache-Control: no-store');
     header('X-Robots-Tag: noindex, nofollow');
 }
+
+/**
+ * Convierte un texto en una dirección legible para la web: "¿Cómo armar tu bloque?" → "como-armar-tu-bloque".
+ * Se usa para la dirección de cada entrada y para el nombre de las imágenes.
+ */
+function crearSlug(string $texto, int $largoMaximo = 100): string
+{
+    $texto = mb_strtolower($texto);
+    $texto = strtr($texto, ['á' => 'a', 'à' => 'a', 'ä' => 'a', 'â' => 'a', 'é' => 'e', 'è' => 'e', 'ë' => 'e', 'ê' => 'e',
+        'í' => 'i', 'ì' => 'i', 'ï' => 'i', 'î' => 'i', 'ó' => 'o', 'ò' => 'o', 'ö' => 'o', 'ô' => 'o',
+        'ú' => 'u', 'ù' => 'u', 'ü' => 'u', 'û' => 'u', 'ñ' => 'n', 'ç' => 'c']);
+    $texto = trim((string) preg_replace('/[^a-z0-9]+/', '-', $texto), '-');
+    return rtrim(substr($texto, 0, $largoMaximo), '-');
+}
+
+/** "2026-10-04" → "4 de octubre de 2026" */
+function fechaLegible(string $fecha): string
+{
+    $meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+        'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    [$anio, $mes, $dia] = array_map('intval', explode('-', substr($fecha, 0, 10)));
+    return "$dia de {$meses[$mes - 1]} de $anio";
+}
+
+/** Lee un límite de tamaño del php.ini ("8M", "2G"…) y lo devuelve en bytes. */
+function bytesDeIni(string $opcion): int
+{
+    $valor = trim((string) ini_get($opcion));
+    $numero = (int) $valor;
+    if ($numero <= 0) {
+        return PHP_INT_MAX; // 0 o vacío: sin límite
+    }
+    return $numero * match (strtoupper(substr($valor, -1))) {
+        'G' => 1024 ** 3,
+        'M' => 1024 ** 2,
+        'K' => 1024,
+        default => 1,
+    };
+}
+
+/**
+ * Cuando lo que se envía supera el post_max_size del servidor, PHP descarta TODO el formulario
+ * (llega vacío, sin token CSRF). Con esto se avisa el motivo real en vez de "el formulario venció".
+ */
+function superoLimiteDeEnvio(): bool
+{
+    return $_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !$_FILES
+        && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > bytesDeIni('post_max_size');
+}
+
+// ---------- Formularios del panel ----------
+
+/** Párrafo con el error de un campo (oculto si no tiene). El campo lo vincula con aria-describedby. */
+function errorDeCampo(array $errores, string $campo): string
+{
+    if (!isset($errores[$campo])) {
+        return '<p class="campo__error" id="' . e($campo) . '-error" hidden></p>';
+    }
+    return '<p class="campo__error" id="' . e($campo) . '-error"><span class="oculto-accesible">Error: </span>'
+        . e($errores[$campo]) . '</p>';
+}
+
+/** Marca el campo como inválido para los lectores de pantalla. */
+function marcaInvalido(array $errores, string $campo): string
+{
+    return isset($errores[$campo]) ? ' aria-invalid="true"' : '';
+}

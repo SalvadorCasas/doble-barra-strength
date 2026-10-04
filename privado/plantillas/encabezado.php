@@ -1,6 +1,7 @@
 <?php
 // Inicio de cada página del panel. Antes de incluirlo, definir:
-//   $tituloPagina (texto del <title>), $usuario (array o null) y opcionalmente $hayErrores (bool).
+//   $tituloPagina (texto del <title>), $usuario (array o null) y opcionalmente $hayErrores (bool)
+//   y $conEditor (true en la página que tiene el editor de entradas).
 declare(strict_types=1);
 
 $prefijoTitulo = !empty($hayErrores) ? 'Error: ' : '';
@@ -21,6 +22,9 @@ $prefijoTitulo = !empty($hayErrores) ? 'Error: ' : '';
   <script src="../js/tema.js"></script>
   <script src="../js/main.js" defer></script>
   <script src="../js/admin.js" defer></script>
+  <?php if (!empty($conEditor)): ?>
+  <script src="../js/editor.js" defer></script>
+  <?php endif; ?>
 </head>
 <body>
 

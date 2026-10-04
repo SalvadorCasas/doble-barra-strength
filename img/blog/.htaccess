@@ -1,0 +1,5 @@
+# Imágenes que se suben desde el panel. Solo se sirven las WebP que genera el propio panel:
+# cualquier otro archivo (por ejemplo un .php que alguien lograra dejar acá) no se entrega ni se ejecuta.
+<FilesMatch "^(?!.*\.webp$).*$">
+  Require all denied
+</FilesMatch>

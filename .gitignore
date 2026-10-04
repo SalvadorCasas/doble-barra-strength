@@ -27,3 +27,7 @@ desktop.ini
 
 # Imágenes y videos originales del equipo, sin optimizar (pesados; no van al repositorio)
 _originales/
+
+# Imágenes subidas desde el panel: viven solo en cada servidor (se respaldan junto con la base de datos)
+img/blog/*
+!img/blog/.htaccess
