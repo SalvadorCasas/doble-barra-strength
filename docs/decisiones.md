@@ -158,6 +158,12 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
   - El panel tiene un botón "Ver en el sitio" para las publicadas.
   - Netlify (que no ejecuta PHP) redirige `blog/entrada.php` al listado y bloquea `api/`.
 
+### 2026-10-04 · Caché del CSS y el JS
+- **Contexto:** después de publicar el blog, el panel se veía con los estilos viejos: el navegador guardaba el CSS por 1 hora.
+- **Opciones:** que el navegador pregunte en cada visita si el archivo cambió · agregar un número de versión al nombre (`styles.css?v=2`) en cada actualización.
+- **Decisión:** preguntar en cada visita (`.htaccess`: "access plus 0 seconds" para HTML, CSS y JS). Si el archivo no cambió, el servidor responde 304 sin mandarlo.
+- **Motivo:** las actualizaciones se ven enseguida y no hay que acordarse de cambiar números a mano. El costo es una consulta mínima por página.
+
 ### 2026-10-03 · Control de versiones
 - **Decisión:** Git y GitHub. `main` es la versión estable y los cambios se trabajan en ramas aparte (por ejemplo, `feature/login`), con commits chicos y descriptivos.
 - **Motivo:** permite volver atrás y revisar cada cambio antes de pasarlo a la versión estable.
