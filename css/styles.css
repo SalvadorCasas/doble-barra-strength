@@ -23,6 +23,7 @@
   /* Capas sobre fotos y video: nunca menos de 65 % de opacidad donde hay texto */
   --overlay-foto: rgba(10, 10, 10, 0.75);
   --overlay-foto-fuerte: rgba(10, 10, 10, 0.88);
+  --fondo-dialogo: rgba(10, 10, 10, 0.7);  /* detrás de las ventanas del panel */
 
   --fuente-titulos: "Oswald", "Arial Narrow", Arial, sans-serif;
   --fuente-texto: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -1311,8 +1312,7 @@ textarea {
 
 /* Mientras el JS carga las entradas se reserva espacio, así la banda y el footer
    no "saltan" hacia abajo cuando aparecen las tarjetas (CLS) */
-.js .lista-entradas:not([data-cargada]),
-.js [data-blog="entrada"]:not([data-cargada]) [data-entrada-cuerpo] {
+.js .lista-entradas:not([data-cargada]) {
   min-height: 70vh;
 }
 
@@ -2076,6 +2076,281 @@ textarea.campo__control {
 
 .panel__nota-titulo {
   font-size: 1.5rem;
+}
+
+.panel__volver {
+  display: flex;
+  width: fit-content;
+  margin-bottom: 1.5rem;
+}
+
+.panel__intro {
+  max-width: 60ch;
+  margin-top: 0.75rem;
+  font-size: 1.0625rem;
+  color: var(--texto-suave);
+}
+
+.panel__aviso {
+  max-width: 48rem;
+  margin-top: 1.5rem;
+}
+
+/* Título "Entradas del blog" con el botón "Nueva entrada" al lado (debajo en celular) */
+.panel__encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-block: 3rem 1.5rem;
+}
+
+.panel__subtitulo {
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+}
+
+.panel__vacio {
+  padding: 1.5rem;
+  color: var(--texto-suave);
+  border: 2px dashed var(--borde-control);
+  border-radius: var(--radio-grande);
+}
+
+/* Listado de entradas: una tarjeta por entrada, con las acciones debajo (al costado desde tablet) */
+.panel-entradas {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.panel-entradas__item {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  background-color: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-grande);
+}
+
+@media (min-width: 768px) {
+  .panel-entradas__item {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+
+.panel-entradas__titulo {
+  font-size: 1.375rem;
+  line-height: 1.2;
+}
+
+.panel-entradas__titulo a {
+  text-decoration: none;
+}
+
+.panel-entradas__titulo a:hover {
+  text-decoration: underline;
+}
+
+.panel-entradas__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--texto-suave);
+}
+
+.panel-entradas__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.boton--chico {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+/* Estado de la entrada: se distingue por el texto, además del relleno */
+.estado {
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--texto);
+  border: 2px solid var(--borde-control);
+  border-radius: var(--radio);
+}
+
+.estado--publicada {
+  background-color: var(--boton-bg);
+  color: var(--boton-texto);
+  border-color: var(--boton-bg);
+}
+
+/* Editor de entradas */
+.editor {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.editor__portada {
+  gap: 1.25rem;
+}
+
+.editor__portada-actual {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.editor__portada-imagen {
+  width: 100%;
+  max-width: 24rem;
+  border-radius: var(--radio);
+}
+
+.editor__barra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.editor__boton {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  background-color: var(--bg);
+  border: 2px solid var(--borde-control);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: border-color var(--transicion);
+}
+
+.editor__boton:hover {
+  border-color: var(--texto);
+}
+
+.editor__boton--negrita {
+  font-weight: 700;
+}
+
+.editor__boton--cursiva {
+  font-style: italic;
+}
+
+textarea.editor__resumen {
+  min-height: 5.5rem;
+}
+
+textarea.editor__texto {
+  min-height: 24rem;
+  line-height: 1.6;
+}
+
+.editor__ayuda {
+  font-size: 0.9375rem;
+}
+
+.editor__ayuda summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.editor__ayuda ul {
+  display: grid;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.editor__ayuda code {
+  padding: 0.0625rem 0.375rem;
+  font-size: 0.9em;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--borde);
+  border-radius: 0.25rem;
+}
+
+.editor__acciones,
+.borrar__acciones,
+.dialogo__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Vista previa: la entrada tal como se va a ver, dentro de un recuadro */
+.vista-previa {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 2px dashed var(--borde-control);
+  border-radius: var(--radio-grande);
+}
+
+.vista-previa__titulo {
+  font-size: 1.75rem;
+}
+
+.vista-previa__aviso {
+  font-weight: 600;
+}
+
+.vista-previa__entrada {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--borde);
+}
+
+.vista-previa__entrada .entrada__meta {
+  margin-bottom: 1.5rem;
+}
+
+/* Ventanas del editor (agregar link o imagen) */
+.dialogo {
+  width: min(100% - 2rem, 32rem);
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  padding: clamp(1.25rem, 5vw, 2rem);
+  overflow-y: auto;
+  background-color: var(--superficie);
+  color: var(--texto);
+  border: 1px solid var(--borde);
+  border-top: 0.375rem solid var(--acento-grande);
+  border-radius: var(--radio-grande);
+  box-shadow: var(--sombra);
+}
+
+.dialogo::backdrop {
+  background-color: var(--fondo-dialogo);
+}
+
+.dialogo__formulario {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.dialogo__titulo {
+  font-size: 1.75rem;
+}
+
+/* Confirmación de borrado */
+.borrar__titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 
 /* ---------- Animaciones ---------- */

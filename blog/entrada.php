@@ -1,11 +1,54 @@
+<?php
+// Página de una entrada del blog: blog/entrada.php?slug=…
+// La arma PHP en el servidor (no el navegador) para que Google y las redes sociales lean el título,
+// el texto y la imagen. Solo muestra entradas publicadas; los borradores dan "no encontrada".
+declare(strict_types=1);
+
+require __DIR__ . '/../privado/arranque.php';
+require __DIR__ . '/../privado/entradas.php';
+
+$slug = (string) ($_GET['slug'] ?? '');
+$entrada = preg_match('/^[a-z0-9-]{1,100}$/', $slug) ? entradaPublicada($slug) : null;
+if (!$entrada) {
+    http_response_code(404);
+}
+
+// Direcciones completas (con el dominio) para Google y las vistas previas de las redes
+$host = preg_match('/^[a-z0-9.-]+(:\d+)?$/i', $_SERVER['HTTP_HOST'] ?? '') ? $_SERVER['HTTP_HOST'] : 'localhost';
+$raizWeb = (esHttps() ? 'https://' : 'http://') . $host
+    . rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'], 2)), '/') . '/';
+$imagen = $entrada && $entrada['imagen'] ? datosDeImagen($entrada['imagen'], '') : null;
+
+$titulo = $entrada ? $entrada['titulo'] : 'No encontramos esta entrada';
+$descripcion = $entrada['resumen'] ?? 'Entrada del blog de Doble Barra Strength, equipo de powerlifting.';
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- El título y la descripción se reemplazan con los datos de la entrada al cargarla -->
-  <title>Entrada del blog | Doble Barra Strength</title>
-  <meta name="description" content="Entrada del blog de Doble Barra Strength, equipo de powerlifting.">
+  <title><?= e($titulo) ?> | Blog de Doble Barra Strength</title>
+  <meta name="description" content="<?= e($descripcion) ?>">
+  <?php if ($entrada): ?>
+  <link rel="canonical" href="<?= e($raizWeb . 'blog/entrada.php?slug=' . $entrada['slug']) ?>">
+  <!-- Vista previa al compartir el link (WhatsApp, Instagram, Facebook, X, LinkedIn) -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Doble Barra Strength">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="<?= e($entrada['titulo']) ?>">
+  <meta property="og:description" content="<?= e($descripcion) ?>">
+  <meta property="og:url" content="<?= e($raizWeb . 'blog/entrada.php?slug=' . $entrada['slug']) ?>">
+  <meta property="article:published_time" content="<?= e($entrada['fecha']) ?>">
+  <?php if ($imagen): ?>
+  <meta property="og:image" content="<?= e($raizWeb . $imagen['src']) ?>">
+  <meta property="og:image:width" content="<?= $imagen['ancho'] ?>">
+  <meta property="og:image:height" content="<?= $imagen['alto'] ?>">
+  <meta property="og:image:alt" content="<?= e($entrada['imagen_alt']) ?>">
+  <?php endif; ?>
+  <meta name="twitter:card" content="<?= $imagen ? 'summary_large_image' : 'summary' ?>">
+  <?php else: ?>
+  <meta name="robots" content="noindex">
+  <?php endif; ?>
   <link rel="icon" href="../favicon-48.png" type="image/png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,14 +57,13 @@
   <link rel="stylesheet" href="../css/styles.css">
   <script src="../js/tema.js"></script>
   <script src="../js/main.js" defer></script>
-  <script src="../js/blog.js" defer></script>
 </head>
 <body data-raiz="../">
 
   <a href="#contenido" class="saltar-contenido">Saltar al contenido</a>
 
   <!-- ===================== CABECERA ===================== -->
-  <!-- Igual en las 3 páginas: si se cambia, actualizar index.html, blog/index.html y blog/entrada.html -->
+  <!-- Igual en las 3 páginas: si se cambia, actualizar index.html, blog/index.html y blog/entrada.php -->
   <header class="header">
     <div class="contenedor header__contenido">
       <a href="../index.html" class="marca">
@@ -60,7 +102,7 @@
   <main id="contenido" tabindex="-1">
 
     <!-- ===================== ENTRADA ===================== -->
-    <article class="seccion" data-blog="entrada">
+    <article class="seccion">
       <div class="contenedor contenedor--angosto">
         <p class="entrada__volver">
           <a class="enlace-flecha" href="index.html">
@@ -69,13 +111,28 @@
           </a>
         </p>
         <header class="entrada__cabecera">
-          <h1 class="entrada__titulo" data-entrada-titulo>Cargando entrada…</h1>
-          <p class="entrada__meta" data-entrada-meta></p>
+          <h1 class="entrada__titulo"><?= e($titulo) ?></h1>
+          <?php if ($entrada): ?>
+            <p class="entrada__meta">
+              Por <?= e($entrada['autor']) ?> ·
+              <time datetime="<?= e($entrada['fecha']) ?>"><?= e(fechaLegible($entrada['fecha'])) ?></time>
+            </p>
+          <?php endif; ?>
         </header>
-        <div data-entrada-imagen></div>
-        <div class="contenido-enriquecido" data-entrada-cuerpo>
-          <noscript><p>Para leer esta entrada necesitás tener JavaScript activado.</p></noscript>
-        </div>
+
+        <?php if ($entrada): ?>
+          <?php if ($imagen): ?>
+            <?= htmlDeImagen($entrada['imagen'], $entrada['imagen_alt'], '../', 'entrada__imagen', true) ?>
+          <?php endif; ?>
+          <div class="contenido-enriquecido">
+            <?= bloquesAHtml(textoABloques($entrada['cuerpo']), '../') ?>
+          </div>
+        <?php else: ?>
+          <div class="contenido-enriquecido">
+            <p>Puede que la dirección esté mal escrita o que la entrada ya no esté publicada.</p>
+            <p><a href="index.html">Ver todas las entradas del blog</a></p>
+          </div>
+        <?php endif; ?>
       </div>
     </article>
 

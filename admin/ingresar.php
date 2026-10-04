@@ -65,22 +65,10 @@ require __DIR__ . '/../privado/plantillas/encabezado.php';
           <p class="aviso" role="status"><?= e($aviso) ?></p>
         <?php endif; ?>
 
-        <?php if ($hayErrores): ?>
-          <!-- El foco se mueve acá al cargar (js/admin.js) para que el lector de pantalla lo lea primero -->
-          <div class="resumen-errores" id="resumen-errores" tabindex="-1" data-enfocar>
-            <h2 class="resumen-errores__titulo"><?= $errorGeneral ? 'No pudimos ingresar' : 'Revisá los datos' ?></h2>
-            <?php if ($errorGeneral): ?>
-              <p><?= e($errorGeneral) ?></p>
-            <?php endif; ?>
-            <?php if ($errores): ?>
-              <ul class="resumen-errores__lista">
-                <?php foreach ($errores as $campo => $mensaje): ?>
-                  <li><a href="#<?= e($campo) ?>"><?= e($mensaje) ?></a></li>
-                <?php endforeach; ?>
-              </ul>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
+        <?php
+        $tituloErrores = $errorGeneral ? 'No pudimos ingresar' : 'Revisá los datos';
+        require __DIR__ . '/../privado/plantillas/resumen-errores.php';
+        ?>
 
         <form class="formulario-acceso" method="post" action="ingresar.php" novalidate>
           <?= campoCsrf() ?>
@@ -88,26 +76,20 @@ require __DIR__ . '/../privado/plantillas/encabezado.php';
           <div class="campo">
             <label class="campo__etiqueta" for="email">Mail</label>
             <input class="campo__control" type="email" id="email" name="email" value="<?= e($email) ?>"
-                   autocomplete="username" spellcheck="false" required aria-describedby="email-error"
-                   <?= isset($errores['email']) ? 'aria-invalid="true"' : '' ?>>
-            <p class="campo__error" id="email-error" <?= isset($errores['email']) ? '' : 'hidden' ?>>
-              <?php if (isset($errores['email'])): ?><span class="oculto-accesible">Error: </span><?= e($errores['email']) ?><?php endif; ?>
-            </p>
+                   autocomplete="username" spellcheck="false" required aria-describedby="email-error"<?= marcaInvalido($errores, 'email') ?>>
+            <?= errorDeCampo($errores, 'email') ?>
           </div>
 
           <div class="campo">
             <label class="campo__etiqueta" for="clave">Contraseña</label>
             <div class="campo-clave">
               <input class="campo__control" type="password" id="clave" name="clave"
-                     autocomplete="current-password" required aria-describedby="clave-error"
-                     <?= isset($errores['clave']) ? 'aria-invalid="true"' : '' ?>>
+                     autocomplete="current-password" required aria-describedby="clave-error"<?= marcaInvalido($errores, 'clave') ?>>
               <button type="button" class="boton-ver-clave" aria-controls="clave" aria-pressed="false" hidden>
                 Mostrar<span class="oculto-accesible"> contraseña</span>
               </button>
             </div>
-            <p class="campo__error" id="clave-error" <?= isset($errores['clave']) ? '' : 'hidden' ?>>
-              <?php if (isset($errores['clave'])): ?><span class="oculto-accesible">Error: </span><?= e($errores['clave']) ?><?php endif; ?>
-            </p>
+            <?= errorDeCampo($errores, 'clave') ?>
           </div>
 
           <button type="submit" class="boton boton--primario boton--grande boton--ancho">

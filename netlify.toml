@@ -25,3 +25,15 @@
   to = "/404"
   status = 404
   force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/blog/entrada.php"
+  to = "/blog/index.html"
+  status = 302
+  force = true

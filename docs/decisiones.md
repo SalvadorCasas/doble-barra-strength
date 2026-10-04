@@ -49,8 +49,8 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
   - El mantenimiento lo asumen el desarrollador y Claude.
 - **Etapas:**
   1. Login ✅
-  2. Panel de entradas
-  3. Blog público conectado a la base
+  2. Panel de entradas ✅
+  3. Blog público conectado a la base ✅
 
 ### 2026-10-03 · Seguridad del login
 - **Decisión:**
@@ -126,6 +126,37 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
   - **Humo en movimiento:** a pedido del equipo, después de la intro el humo sigue moviéndose con un fragmento que se repite. La primera versión era de ida y vuelta, y se notaba cuando el humo retrocedía. Se reemplazó por cámara lenta con cuadros intermedios calculados por movimiento y un bucle siempre hacia adelante, con un fundido entre el final y el principio. Así el humo se ve fluido, como al comienzo del video.
   - **Botón de pausa:** como ese movimiento no termina, se agregó un botón para pausarlo (WCAG 2.2.2) y el video se pausa solo cuando el hero no se ve.
   - **Videos regenerados:** se rehicieron en 1920 px para escritorio, porque la primera versión se veía borrosa, y sin las franjas negras del original.
+
+### 2026-10-04 · Editor de entradas del blog (etapa 2)
+- **Opciones:**
+  - texto con marcas simples (`**negrita**`, `## Subtítulo`, `- lista`) + botones que las agregan + vista previa;
+  - editor visual propio (se ve el formato al escribir);
+  - librería de editor (Quill, TinyMCE).
+- **Decisión:** texto con marcas simples, botones y vista previa. Alcance completo: listado, crear, editar, borrar, borrador/publicada, imagen principal e imágenes dentro del texto.
+- **Motivo:**
+  - Sin librerías ni cambios en la CSP, y accesible con teclado y lector de pantalla (es un campo de texto común).
+  - El texto se guarda tal cual, **nunca como HTML**: se convierte al mostrarlo y todo pasa por `e()`. No hace falta limpiar etiquetas con una lista blanca (reemplaza lo previsto en CLAUDE.md para la etapa 2).
+  - El servidor convierte el texto a los mismos bloques que ya lee `js/blog.js`, así la etapa 3 solo tiene que entregarlos.
+- **Contras aceptadas:** mientras escriben se ven los símbolos, no el formato final (para eso está la vista previa).
+- **Detalles:**
+  - **Borrador:** solo pide título. **Publicar:** también resumen y texto.
+  - **Dirección (slug):** se arma sola con el título y no se repite ("…-2"). Se puede cambiar a mano.
+  - **Imágenes:** JPG, PNG o WebP de hasta 10 MB (o el límite del servidor si es menor). Se enderezan según el dato de giro de las fotos de celular, se guardan en WebP de 800 y 1600 px en `img/blog/` y se descartan los datos internos (incluida la ubicación GPS). Descripción (alt) obligatoria.
+  - **Limpieza:** al guardar o borrar, se eliminan las imágenes que no usa ninguna entrada y tienen más de 24 horas.
+  - **Sesión:** mientras se escribe, el editor avisa al servidor cada 5 minutos para que la sesión no venza en medio de una entrada larga. Si igual venció, avisa antes de enviar para no perder el texto.
+  - **Cambios sin guardar:** el navegador pregunta antes de salir de la página.
+
+### 2026-10-04 · Blog público conectado a la base (etapa 3)
+- **Opciones para la página de cada entrada:** que la arme PHP en el servidor · que la arme el JavaScript del navegador (como hasta ahora).
+- **Decisión:** la arma PHP (`blog/entrada.php`, reemplaza a `blog/entrada.html`). Las tarjetas de la home y del listado siguen con JavaScript, leyendo `api/entradas.php`.
+- **Motivo:**
+  - Google y las redes leen el título, el texto y la imagen; al compartir el link aparece la vista previa (Open Graph).
+  - Carga más rápido y se lee aunque falle el JavaScript.
+- **Además:**
+  - Solo se ven las entradas publicadas; un borrador o una dirección inexistente dan "No encontramos esta entrada" (error 404).
+  - Se sacó el modo `?ejemplos` y las imágenes de ejemplo: ya hay entradas reales.
+  - El panel tiene un botón "Ver en el sitio" para las publicadas.
+  - Netlify (que no ejecuta PHP) redirige `blog/entrada.php` al listado y bloquea `api/`.
 
 ### 2026-10-03 · Control de versiones
 - **Decisión:** Git y GitHub. `main` es la versión estable y los cambios se trabajan en ramas aparte (por ejemplo, `feature/login`), con commits chicos y descriptivos.

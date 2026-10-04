@@ -12,14 +12,18 @@ Las decisiones técnicas y sus motivos están en [`docs/decisiones.md`](docs/dec
 
 ```
 index.html            Home (una sola página con todas las secciones)
-blog/                 Listado de entradas y página de cada entrada
+blog/                 Listado de entradas (index.html) y página de cada entrada (entrada.php, armada por PHP)
+api/                  entradas.php: entradas publicadas en JSON para las tarjetas del blog (solo lectura)
 css/styles.css        Todos los estilos (colores definidos como variables en :root)
-js/                   tema.js, main.js, formulario.js, blog.js y admin.js (uno por función)
-img/                  Imágenes (img/placeholders/ = provisorias)
-admin/                Panel: ingresar.php, index.php, salir.php
+js/                   tema.js, main.js, formulario.js, blog.js, admin.js y editor.js (uno por función)
+img/                  Imágenes (img/blog/ = las que se suben desde el panel; no está en el repositorio)
+admin/                Panel: ingreso, listado de entradas (index.php), editor (entrada.php), borrado y subida de imágenes
 privado/              Código interno del panel; bloqueado para la web con .htaccess
   config.ejemplo.php  Plantilla de configuración (nombres sin valores reales)
   esquema.sql         Tablas de la base de datos
+  entradas.php        Guardar, validar y borrar entradas del blog
+  formato.php         Convierte el texto con marcas (**negrita**, ## Subtítulo…) en bloques
+  imagenes.php        Procesa las imágenes subidas (WebP, giro de la foto, limpieza)
   usuarios.php        Herramienta de consola para administrar cuentas
   servidor-local.php  Router para el servidor de PHP en la PC (no se usa en el hosting)
 docs/                 Documentación del proyecto
@@ -27,7 +31,7 @@ docs/                 Documentación del proyecto
 
 ## Correrlo en la PC
 
-**Requisitos:** PHP 8.2 o superior con las extensiones `pdo_mysql`, `mbstring`, `openssl` y `fileinfo`, y MariaDB 11 o MySQL 8.
+**Requisitos:** PHP 8.2 o superior con las extensiones `pdo_mysql`, `mbstring`, `openssl`, `fileinfo` y `gd` (con soporte WebP, para las imágenes del blog), y MariaDB 11 o MySQL 8.
 
 1. Crear la base de datos y un usuario para el sitio, y cargar las tablas:
    ```sql
@@ -40,11 +44,11 @@ docs/                 Documentación del proyecto
 3. Crear una cuenta para el panel: `php privado/usuarios.php crear`.
 4. Levantar el servidor desde la carpeta del proyecto:
    ```
-   php -S localhost:3000 privado/servidor-local.php
+   php -d upload_max_filesize=10M -d post_max_size=12M -S localhost:3000 privado/servidor-local.php
    ```
    - Sitio: http://localhost:3000/index.html
    - Panel: http://localhost:3000/admin/ingresar.php
-   - Para ver el blog con entradas de ejemplo: http://localhost:3000/index.html?ejemplos
+   - El blog muestra las entradas publicadas desde el panel (sin ninguna, se ve el aviso "Muy pronto")
 
 ## Configuración
 
@@ -88,7 +92,12 @@ El panel necesita **PHP y MySQL/MariaDB**. Los hostings que solo publican archiv
 4. **Crear la configuración real** a partir de `config.ejemplo.php` como `doblebarra-config.php`, **dos carpetas arriba de `privado/`** (con la estructura recomendada: `/home/usuario/doblebarra-config.php`, fuera de toda carpeta pública), con `'entorno' => 'produccion'`. Si el sitio está en una subcarpeta de `public_html`, usar `privado/config.php` (protegido por su `.htaccess`).
 5. **HTTPS:** el `.htaccess` de la raíz ya fuerza HTTPS y activa la compresión y la caché. Revisar en "SSL/TLS Status" que el dominio o subdominio tenga certificado; si todavía no lo tiene, comentar las líneas de HTTPS hasta que esté.
 6. **Terminal:** entrar a la carpeta del sitio (`cd ~/doblebarra`) y ejecutar `php privado/usuarios.php crear` para cada persona del equipo.
-7. **Probar:** ingreso, contraseña incorrecta, bloqueo tras 5 intentos y cierre de sesión.
+7. **Límite de subida de imágenes:** en cPanel → "MultiPHP INI Editor" (o "Select PHP Version" → Opciones), poner `upload_max_filesize = 10M` y `post_max_size = 12M`. Si no se cambia, el panel funciona igual y avisa el límite real (muchas veces 2 MB, poco para fotos de celular).
+8. **Probar:** ingreso, contraseña incorrecta, bloqueo tras 5 intentos, cierre de sesión, crear una entrada con imagen y borrarla.
+
+**Al actualizar con cambios en las tablas** (por ejemplo, al sumar el blog): volver a importar `privado/esquema.sql` en phpMyAdmin. Solo crea lo que falta; no borra datos.
+
+**Respaldo:** las entradas viven en la base de datos y sus imágenes en `img/blog/`, que no está en el repositorio. Para respaldar el blog hay que guardar las dos cosas (phpMyAdmin → Exportar, y descargar la carpeta desde el Administrador de archivos).
 
 Formulario "Sumate al equipo": activar el mail de destino en FormSubmit y reemplazar `COMPLETAR-alias-formsubmit` en el `action` del formulario de `index.html` por el alias que da FormSubmit.
 
