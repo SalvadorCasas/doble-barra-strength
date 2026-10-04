@@ -24,3 +24,6 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# Imágenes y videos originales del equipo, sin optimizar (pesados; no van al repositorio)
+_originales/

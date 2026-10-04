@@ -23,7 +23,7 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
 
 ### 2026-10-03 · Paleta de colores
 - **Decisión:** rojo, negro, blanco y gris, definidos como variables en `:root`. Todas las combinaciones de texto y fondo se midieron para cumplir WCAG AA.
-- **Motivo:** el rojo `#D7141A` no alcanza 4,5:1 sobre negro, así que en el tema oscuro solo se usa en textos grandes, fondos y bordes. Para el texto chico se usa un rojo más claro. El rojo se va a ajustar cuando llegue el logo.
+- **Motivo:** el rojo `#D7141A` no alcanzaba 4,5:1 sobre negro, así que en el tema oscuro solo se usaba en textos grandes, fondos y bordes. **Reemplazada el 2026-10-04** por la identidad en negro y blanco (ver más abajo).
 
 ### 2026-10-03 · Edad, altura y peso en el formulario
 - **Opciones:** un solo campo de texto (como el Google Form original) · tres campos separados.
@@ -106,6 +106,26 @@ Cada decisión indica la fecha, las opciones evaluadas, lo que se decidió y por
 - **Además:**
   - Se agregó `netlify.toml` para que Netlify deje de entregar el código del panel mientras siga publicado.
   - Se agregó un `.htaccess` en la raíz que fuerza HTTPS, activa la compresión y la caché, y bloquea `.git`, `docs/` y el `README`.
+
+### 2026-10-04 · Identidad visual en negro y blanco
+- **Contexto:** el equipo entregó el logo, la firma, una foto de Ivan, el video de intro y una foto de una barra con discos. Pidió que los colores principales sean el negro y el blanco y que se saque el rojo por completo.
+- **Decisión:**
+  - **Paleta:** negro, blanco y grises. El acento es el negro en el tema claro y el blanco en el oscuro, sin rojo en la interfaz.
+  - **Logo y marca "DB":** en el header y en el footer. Son blancos y se invierten a negro en el tema claro.
+  - **Firma:** en el footer.
+  - **Video de intro:** en el hero, recortado antes de los destellos blancos, sin audio. Se reproduce una vez y no se repite.
+  - **Foto de Ivan:** en su tarjeta, sin la marca de agua, con permiso del fotógrafo.
+  - **Foto de la barra:** de fondo en la banda CTA, con permiso de uso.
+  - **Fotos:** a color, por pedido del equipo.
+- **Motivo:**
+  - Pedido del equipo.
+  - Todas las combinaciones de texto y fondo se volvieron a medir: la más baja es 6.98:1.
+  - Los errores del formulario, sin color de alerta, se identifican con ícono, texto y borde.
+  - El video no se reproduce con movimiento reducido.
+- **Ajuste (mismo día):**
+  - **Humo en movimiento:** a pedido del equipo, después de la intro el humo sigue moviéndose con un fragmento que se repite. La primera versión era de ida y vuelta, y se notaba cuando el humo retrocedía. Se reemplazó por cámara lenta con cuadros intermedios calculados por movimiento y un bucle siempre hacia adelante, con un fundido entre el final y el principio. Así el humo se ve fluido, como al comienzo del video.
+  - **Botón de pausa:** como ese movimiento no termina, se agregó un botón para pausarlo (WCAG 2.2.2) y el video se pausa solo cuando el hero no se ve.
+  - **Videos regenerados:** se rehicieron en 1920 px para escritorio, porque la primera versión se veía borrosa, y sin las franjas negras del original.
 
 ### 2026-10-03 · Control de versiones
 - **Decisión:** Git y GitHub. `main` es la versión estable y los cambios se trabajan en ramas aparte (por ejemplo, `feature/login`), con commits chicos y descriptivos.
