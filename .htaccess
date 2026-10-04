@@ -22,13 +22,16 @@ RedirectMatch 404 /\.git(/|$)
   AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript application/json image/svg+xml
 </IfModule>
 
-# Caché del navegador. CSS y JS por poco tiempo (1 hora) para que los cambios se vean rápido;
-# las imágenes por más tiempo. Las páginas del panel mandan su propio "no-store".
+# Caché del navegador. HTML, CSS y JS con "0 segundos": el navegador los guarda, pero en cada visita
+# le pregunta al servidor si cambiaron. Si no cambiaron, el servidor responde "sigue igual" (304) sin
+# mandar el archivo; si cambiaron, manda el nuevo. Así una actualización se ve enseguida, sin Ctrl+F5.
+# Las imágenes, que casi no cambian, se guardan por más tiempo. Las páginas del panel mandan su propio "no-store".
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html "access plus 0 seconds"
-  ExpiresByType text/css "access plus 1 hour"
-  ExpiresByType application/javascript "access plus 1 hour"
+  ExpiresByType text/css "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType text/javascript "access plus 0 seconds"
   ExpiresByType image/svg+xml "access plus 1 month"
   ExpiresByType image/webp "access plus 1 month"
   ExpiresByType image/png "access plus 1 month"
